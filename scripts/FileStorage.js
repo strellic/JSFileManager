@@ -475,7 +475,7 @@ var FileManager = {
 						var editor = newTab.window.ace.edit("edit");
 						editor.setTheme("ace/theme/monokai");
 						var editing = newTab.window.editing;
-						editor.session.setMode(`ace/mode/${(editing.name.split(".")[editing.name.split(".").length-1]).replace("js", "javascript").replace("c", "c_cpp")}`);
+						editor.session.setMode(`ace/mode/${(editing.name.split(".")[editing.name.split(".").length-1]).replace(/^js$/, "javascript").replace(/^c$/, "c_cpp")}`);
 						if (newTab.window.data) {
 							var reader = new FileReader();
 							reader.onload = function() {
