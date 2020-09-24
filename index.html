@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>File Manager</title>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+		<link href="css/filemanager.min.css" rel="stylesheet">
+		<link rel="icon" href="favicon.ico" sizes="16x16" type="image/x-icon">
+		<link href="css/file-icon-vivid.min.css" rel="stylesheet">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/contextmenu.css" rel="stylesheet">
+		<link href="https://cdn.rawgit.com/forsigner/magic-check/9ba7c173/css/magic-check.min.css" rel="stylesheet">
+	<body>
+		<div id="container" class="effect aside-float aside-bright mainnav-sm">
+		<div id="dropZone">
+		</div>
+		<div class="boxed">
+			<div id="content-container">
+				<div id="page-content">
+					<div class="panel">
+						<div style="padding: 15px" class="file-manager">
+							<div class="fixed-responsive">
+								<div class="fixed-sm-200 pull-sm-left file-sidebar">
+									<div class="bord-btm" style="padding-bottom:15px">
+										<a type="file" href="javascript:void(0)" onclick="$('#f').click()" class="btn btn-block btn-lg btn-info v-middle">Upload Files</a>
+										<input type="file" id="f" style="display: none">
+									</div>
+									<p class="pad-hor mar-top text-main text-bold text-sm text-uppercase">Bookmarks</p>
+									<div class="list-group pad-ver bord-btm" id="bookmarks">
+									</div>
+									<p class="pad-hor mar-top text-main text-bold text-sm text-uppercase">Folders</p>
+									<div class="list-group bord-btm" style="padding-bottom:15px" id="folders">
+										<a href="#" class="list-group-item">
+										<i class="fiv-viv fiv-icon-folder icon-lg icon-fw"></i> ...
+										</a>
+									</div>
+									<p class="pad-hor mar-top text-main text-bold text-sm text-uppercase">Settings</p>
+									<ul class="list-inline mar-hor">
+										<li class="tag tag-sm">
+											<a href="javascript:void(0)" onclick="FileManager.clearFiles()">Clear All Files</a>
+										</li>
+										<li class="tag tag-sm">
+											<a href="javascript:void(0)" onclick="FileManager.toggleLimit()">Toggle Limit</a>
+										</li>
+									</ul>
+								</div>
+								<div class="responsive file-panel">
+									<div class="bord-btm pad-ver">
+										<p class="text-main text-bold text-uppercase">Client-side JavaScript File Storage</p>
+										<p class="text-main" id="path">Current path: /</p>
+									</div>
+									<div class="file-toolbar bord-btm">
+										<div class="btn-file-toolbar">
+											<a class="btn btn-icon add-tooltip" href="javascript:void(0)" onclick="FileManager.goToFolder('/');" data-original-title="Home" data-toggle="tooltip"><i class="icon-2x fas fa-home"></i></a>
+											<a class="btn btn-icon add-tooltip" href="javascript:void(0)" onclick="FrontEnd.update();" data-original-title="Refresh" data-toggle="tooltip"><i class="icon-2x fas fa-sync"></i></a>
+										</div>
+										<div class="btn-file-toolbar">
+											<a href="javascript:void(0)" onclick="javascript:FileManager.newFolder()" class="btn btn-icon add-tooltip" href="#" data-original-title="New Folder" data-toggle="tooltip"><i class="icon-2x fas fa-folder"></i></a>
+											<a class="btn btn-icon add-tooltip" href="javascript:void(0)" onclick="FileManager.newFile();" data-original-title="New File" data-toggle="tooltip"><i class="icon-2x fas fa-file"></i></a>
+											<a class="btn btn-icon add-tooltip" href="javascript:void(0)" onclick="FileManager.editFile()" data-original-title="Edit File" data-toggle="tooltip"><i class="icon-2x fas fa-edit"></i></a>
+											<a class="btn btn-icon add-tooltip" href="javascript:void(0)" onclick="FileManager.renameFile()" data-original-title="Rename File" data-toggle="tooltip"><i class="icon-2x fas fa-i-cursor"></i></a>
+										</div>
+										<div class="btn-file-toolbar pull-right">
+											<a class="btn btn-icon add-tooltip" href="javascript:void(0)" onclick="FileManager.toggleBookmark()" data-original-title="Bookmark" data-toggle="tooltip"><i id="bookmark_star" class="icon-2x far fa-star"></i></a>
+											<a class="btn btn-icon add-tooltip" href="javascript:void(0)" onclick="FileManager.deleteChecked()" data-original-title="Delete" data-toggle="tooltip"><i class="icon-2x fas fa-trash"></i></a>
+											<a class="btn btn-icon add-tooltip" href="javascript:void(0)" onclick="FileManager.downloadSelected()" data-original-title="Download" data-toggle="tooltip"><i class="icon-2x fas fa-cloud-download-alt"></i></a>
+											<a class="btn btn-icon add-tooltip" href="javascript:void(0)" onclick="HTMLPreview.initialize()" data-original-title="HTML Preview" data-toggle="tooltip"><i class="icon-2x fab fa-html5"></i></a>
+										</div>
+									</div>
+									<ul id="files" class="file-list">
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer id="footer">
+				<div class="hide-fixed" style="padding-right:15px; float:right" id="sizecounter">
+					0 Bytes used out of 0 Bytes.
+				</div>
+			</footer>
+		</div>
+		<div id="menu">
+			<a href="javascript:void(0)">
+			<i id="menu-file-icon" class="fa fa-file"></i><span id="menu-file">file</span>
+			</a>
+			<hr />
+			<a href="javascript:void(0)" onclick="ContextMenu.set(this);FileManager.renameFile();FrontEnd.update();">
+			<i class="fa fa-pencil-alt"></i><span>Rename File</span>
+			</a>
+			<a href="javascript:void(0)" onclick="ContextMenu.set(this);FileManager.deleteChecked();FrontEnd.update();">
+			<i class="fa fa-trash"></i><span>Delete File</span>
+			</a>
+			<div id="menu-file-only">
+				<a href="javascript:void(0)" onclick="ContextMenu.set(this.parentElement);FileManager.editFile();FrontEnd.update();">
+				<i class="fa fa-edit"></i><span>Edit File</span>
+				</a>
+			</div>
+			<div id="menu-zip-only">
+				<a href="javascript:void(0)" onclick="ContextMenu.set(this.parentElement);FileManager.extractZip(FileManager.getChecked()[0]);FrontEnd.update();">
+				<i class="fa fa-file-archive"></i><span>Extract Zip</span>
+				</a>
+			</div>
+			<a href="javascript:void(0)" onclick="ContextMenu.set(this.parentElement);FileManager.downloadSelected();FrontEnd.update();">
+			<i class="fa fa-cloud-download-alt"></i><span>Download File</span>
+			</a>
+		</div>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/localforage.min.js"></script>
+		<script src="js/sweetalert2.all.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/FileSaver.js"></script>
+		<script src="js/mime.js"></script>
+		<script src="js/URI.min.js"></script>
+		<script src="js/jszip.min.js"></script>
+		<script src="scripts/FileStorage.js"></script>
+		<div id="wrapfabtest">
+			<div class="adBanner" style="height:1px">
+			</div>
+		</div>
+	</body>
+</html>
