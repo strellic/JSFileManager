@@ -13,6 +13,9 @@ This app was created for me and my friends to be able to edit code and create we
 * Everything is stored locally in the browser
 * ZIP upload / download and extraction
 
+## Demo
+Check out this project at [https://brycec.me/jsfm](https://brycec.me/jsfm).
+
 ## Planned Features
 I haven't worked on this in a while, but some features I never got around to implementing was the ability to move files (shouldn't be that hard), a hex editor, and a desktop view.
 

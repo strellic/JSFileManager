@@ -250,7 +250,7 @@ var FileManager = {
 					Client.directory = testPath
 				} catch (err) {
 					Client.directory = "/";
-					history.replaceState({}, document.title, "/files/")
+					history.replaceState({}, document.title, location.pathname)
 				}
 			}
 			FrontEnd.update()
@@ -469,7 +469,7 @@ var FileManager = {
 					newTab.window.data = data;
 					newTab.document.title = `Editing file: ${file.name}`;
 					var ace = newTab.document.createElement("script");
-					ace.src = location.origin + "/files/ace-builds/src-noconflict/ace.js";
+					ace.src = location.origin + location.pathname + "/ace-builds/src-noconflict/ace.js";
 					ace.id = "ace_script";
 					newTab.fn = function() {
 						var editor = newTab.window.ace.edit("edit");
